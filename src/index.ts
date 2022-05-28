@@ -2,9 +2,11 @@ import express, { Application, Request, Response } from 'express'
 import morgan from 'morgan'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
-import errorMiddleware from './middlewares/error.middleware'
+import errorMiddleware from './middleware/error.middleware'
+import config from './config'
+import db from './database'
 
-const PORT = process.env.PORT || 3000
+const PORT = config.port || 3000
 const app: Application = express()
 
 // ! Middleware \\
@@ -47,6 +49,20 @@ app.use((_req: Request, res: Response) => {
   res.status(404).json({
     message: 'Ohh no! You are lost! 😅',
   })
+})
+
+db.connect().then((client) => {
+  return client
+    .query('SELECT NOW()')
+    .then((result) => {
+      client.release()
+      console.log(result.rows)
+      console.log('Connected to the database')
+    })
+    .catch((err) => {
+      client.release()
+      console.log(err.stack)
+    })
 })
 
 // start express server
