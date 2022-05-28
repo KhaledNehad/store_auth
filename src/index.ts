@@ -51,19 +51,19 @@ app.use((_req: Request, res: Response) => {
   })
 })
 
-db.connect().then((client) => {
-  return client
-    .query('SELECT NOW()')
-    .then((result) => {
-      client.release()
-      console.log(result.rows)
-      console.log('Connected to the database')
-    })
-    .catch((err) => {
-      client.release()
-      console.log(err.stack)
-    })
-})
+// db.connect().then((client) => {
+//   return client
+//     .query('SELECT NOW()')
+//     .then((result) => {
+//       client.release()
+//       console.log(result.rows)
+//       console.log('Connected to the database')
+//     })
+//     .catch((err) => {
+//       client.release()
+//       console.log(err.stack)
+//     })
+// })
 
 // start express server
 app.listen(PORT, () => {
