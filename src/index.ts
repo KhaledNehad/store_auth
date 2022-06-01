@@ -4,7 +4,8 @@ import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 import errorMiddleware from './middleware/error.middleware'
 import config from './config'
-import db from './database'
+// import db from './database'
+import routes from './routes'
 
 const PORT = config.port || 3000
 const app: Application = express()
@@ -27,19 +28,12 @@ const limiter = rateLimit({
 app.use(limiter)
 // ! End Middleware \\
 
+app.use('/api', routes)
+
 // add routes
 app.get('/', (req: Request, res: Response) => {
-  throw new Error()
   res.json({
-    message: 'Hello World 👋 🌍',
-  })
-})
-
-// Post request
-app.post('/', (req: Request, res: Response) => {
-  res.json({
-    message: 'Hello World 👋 🌍 from POST',
-    data: req.body,
+    message: 'Hello World 👋 🌍 (index)',
   })
 })
 
