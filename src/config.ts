@@ -13,6 +13,7 @@ const {
   DB_PASSWORD,
   BCRYPT_PASSWORD,
   SALT_ROUNDS,
+  JWT_SECRET,
 } = process.env
 export default {
   port: PORT,
@@ -24,4 +25,5 @@ export default {
   dbPassword: DB_PASSWORD,
   paper: BCRYPT_PASSWORD,
   salt: SALT_ROUNDS,
+  jwtSecret: JWT_SECRET,
 }

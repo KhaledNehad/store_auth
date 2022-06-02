@@ -109,6 +109,38 @@ class UserModel {
     }
   }
   //! authenticate a user
+  async authenticateUser(
+    email: string,
+    password: string
+  ): Promise<User | null> {
+    try {
+      // open connection with the database
+      const connection = await db.connect()
+      const sql = 'SELECT password FROM users WHERE email = $1'
+      // run the query
+      const result = await connection.query(sql, [email])
+      if (result.rows.length) {
+        const { password: hashedPassword } = result.rows[0]
+        const isPasswordValid = bcrypt.compareSync(
+          `${password}${config.paper}`,
+          hashedPassword
+        )
+        if (isPasswordValid) {
+          const userInfo = await connection.query(
+            'SELECT id, email, username, firstName,lastName FROM users WHERE email = $1',
+            [email]
+          )
+          return userInfo.rows[0]
+        }
+      }
+      // release the connection
+      connection.release()
+      // return the result
+      return null
+    } catch (error) {
+      throw new Error(`Unable to login : ${error as Error}.message`)
+    }
+  }
 }
 
 export default UserModel
