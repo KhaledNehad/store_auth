@@ -1,5 +1,12 @@
 import db from '../database'
 import User from '../types/user.type'
+import config from '../config'
+import bcrypt from 'bcrypt'
+
+const hashPassword = (password: string) => {
+  const salt = parseInt(config.salt as string, 12)
+  return bcrypt.hashSync(`${password}${config.paper}`, salt)
+}
 
 class UserModel {
   //! create a new user
@@ -15,7 +22,7 @@ class UserModel {
         u.username,
         u.firstName,
         u.lastName,
-        u.password,
+        hashPassword(u.password),
       ])
       // release the connection
       connection.release()
@@ -37,7 +44,6 @@ class UserModel {
       const result = await connection.query(sql)
       // release the connection
       connection.release()
-      console.log('getAll')
       // return the result
       return result.rows
     } catch (error) {
@@ -74,7 +80,7 @@ class UserModel {
         u.username,
         u.firstName,
         u.lastName,
-        u.password,
+        hashPassword(u.password),
         u.id,
       ])
       // release the connection

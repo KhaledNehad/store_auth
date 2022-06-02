@@ -11,6 +11,8 @@ const {
   DB_NAME_TEST,
   DB_USER,
   DB_PASSWORD,
+  BCRYPT_PASSWORD,
+  SALT_ROUNDS,
 } = process.env
 export default {
   port: PORT,
@@ -20,4 +22,6 @@ export default {
   database: NODE_ENV === 'dev' ? DB_NAME : DB_NAME_TEST,
   dbUser: DB_USER,
   dbPassword: DB_PASSWORD,
+  paper: BCRYPT_PASSWORD,
+  salt: SALT_ROUNDS,
 }
