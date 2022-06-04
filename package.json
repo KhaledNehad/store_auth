@@ -13,7 +13,7 @@
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
-    "test": "npm run build && jasmine"
+    "test": "export NODE_ENV=test && tsc && db-migrate up --env test && tsc && jasmine && db-migrate reset"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
