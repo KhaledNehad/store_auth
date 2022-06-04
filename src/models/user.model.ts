@@ -22,7 +22,7 @@ class UserModel {
         u.username,
         u.firstName,
         u.lastName,
-        hashPassword(u.password),
+        hashPassword(u.password as string),
       ])
       // release the connection
       connection.release()
@@ -80,7 +80,7 @@ class UserModel {
         u.username,
         u.firstName,
         u.lastName,
-        hashPassword(u.password),
+        hashPassword(u.password as string),
         u.id,
       ])
       // release the connection

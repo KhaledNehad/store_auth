@@ -100,7 +100,7 @@ export const authenticate = async (
     const user = await userModel.authenticateUser(email, password)
     const token = jwt.sign({ user }, config.jwtSecret as unknown as string)
     if (!user) {
-      return res.status(401).json({
+      return res.json({
         status: 'error',
         message: 'Invalid email or password',
       })
